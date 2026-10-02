@@ -1,0 +1,11 @@
+bin/
+obj/
+.vs/
+[Dd]ebug/
+[Rr]elease/
+[Aa]rtifacts/
+TestResults/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
