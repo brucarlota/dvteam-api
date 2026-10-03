@@ -12,6 +12,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
 	options.UseSqlite("Data Source=dvteam.db"));
 
+// CONFIGURANDO O CORS
+builder.Services.AddCors(options =>
+{
+   options.AddPolicy("PermitirAngular", policy =>
+   {
+      policy.WithOrigins("http://localhost:4200")
+      .AllowAnyHeader()
+      .AllowAnyMethod(); 
+   }); 
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,6 +36,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+// CORS
+app.UseCors("PermitirAngular");
 
 app.MapControllers();
 
