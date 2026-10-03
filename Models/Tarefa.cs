@@ -15,7 +15,6 @@ public class Tarefa
 	[Required(ErrorMessage = "O título é obrigatório.")]
 	[MaxLength(100, ErrorMessage = "O título não pode ter mais de 100 caracteres.")]
 	public required string Titulo { get; set; }
-	[Required(ErrorMessage = "A descrição é obrigatória.")]
 	[MaxLength(500, ErrorMessage = "A descrição não pode ter mais de 500 caracteres.")]
 	public required string Descricao { get; set; }
 	public DateTime DataCriacao { get; set; }
