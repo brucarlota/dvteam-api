@@ -45,9 +45,6 @@ public class TarefaController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> CriarTarefa([FromBody] Tarefa tarefa)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
         var novaTarefa = await _service.CriarTarefaAsync(tarefa);
 
         return CreatedAtAction(
@@ -68,10 +65,10 @@ public class TarefaController : ControllerBase
                 mensagem = "O ID informado é inválido."
             });
 
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
-
-        var tarefa = await _service.AtualizarTarefaAsync(id, tarefaAtualizada);
+        var tarefa = await _service.AtualizarTarefaAsync(
+            id,
+            tarefaAtualizada
+        );
 
         if (tarefa == null)
             return NotFound(new
