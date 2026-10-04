@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using dvteam_api.Models;
-using Microsoft.EntityFrameworkCore;
-using dvteam_api.Data;
+using dvteam_api.Services;
 
 namespace dvteam_api.Controllers;
 
@@ -9,25 +8,21 @@ namespace dvteam_api.Controllers;
 [Route("api/[controller]")]
 public class UsuarioController : ControllerBase
 {
-    private readonly AppDbContext _context;
-	public UsuarioController (AppDbContext context)
+	private readonly IUsuarioService _service;
+	public UsuarioController(IUsuarioService service)
 	{
-		_context = context;
+		_service = service;
 	}
     
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetUsuario(int id)
 	{
 		if (id <= 0)
-		{
 			return BadRequest("ID inválido.");
-		}
 
-		var usuario = await _context.Usuarios.FindAsync(id);
+		var usuario = await _service.GetUsuarioAsync(id);
 		if (usuario == null)
-		{
 			return NotFound("Usuário não encontrado.");
-		}
 
 		return Ok(usuario);
 	}
@@ -36,12 +31,10 @@ public class UsuarioController : ControllerBase
 	public async Task<IActionResult> CriarUsuario([FromBody] Usuario usuario)
 	{
 		if (!ModelState.IsValid)
-		{
 			return BadRequest(ModelState);
-		}
+		
+		var novoUsuario = await _service.CriarUsuarioAsync(usuario);
 
-		_context.Usuarios.Add(usuario);
-		await _context.SaveChangesAsync();
-		return CreatedAtAction(nameof(GetUsuario), new { id = usuario.Id }, usuario);
+		return CreatedAtAction(nameof(GetUsuario), new { id = novoUsuario.Id }, novoUsuario);
 	}
 }
