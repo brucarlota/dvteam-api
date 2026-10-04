@@ -9,3 +9,4 @@ TestResults/
 *.suo
 *.userosscache
 *.sln.docstates
+*.db
