@@ -13,7 +13,7 @@ public class UsuarioController : ControllerBase
 	{
 		_service = service;
 	}
-    
+
 	[HttpGet("{id}")]
 	public async Task<IActionResult> GetUsuario(int id)
 	{
@@ -24,17 +24,22 @@ public class UsuarioController : ControllerBase
 		if (usuario == null)
 			return NotFound("Usuário não encontrado.");
 
-		return Ok(usuario);
+		return Ok(new
+		{
+			usuario.Id,
+			usuario.Nome,
+			usuario.Email
+		});
 	}
 
-    [HttpPost]
+	[HttpPost]
 	public async Task<IActionResult> CriarUsuario([FromBody] Usuario usuario)
 	{
 		if (!ModelState.IsValid)
 			return BadRequest(ModelState);
-		
+
 		var novoUsuario = await _service.CriarUsuarioAsync(usuario);
 
-		return CreatedAtAction(nameof(GetUsuario), new { id = novoUsuario.Id }, novoUsuario);
+		return CreatedAtAction(nameof(GetUsuario), new { id = novoUsuario.Id }, new { novoUsuario.Id, novoUsuario.Nome, novoUsuario.Email});
 	}
 }
