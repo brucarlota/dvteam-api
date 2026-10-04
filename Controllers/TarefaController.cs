@@ -8,69 +8,97 @@ namespace dvteam_api.Controllers;
 [Route("api/[controller]")]
 public class TarefaController : ControllerBase
 {
-	private readonly ITarefaService _service;
-	public TarefaController(ITarefaService service)
-	{
-		_service = service;
-	}
+    private readonly ITarefaService _service;
 
-	[HttpGet]
-	public async Task<IActionResult> ListarTarefas()
-	{
-		var tarefas = await _service.ListarTarefasAsync();
-		return Ok(tarefas);
-	}
+    public TarefaController(ITarefaService service)
+    {
+        _service = service;
+    }
 
-	[HttpGet("{id}")]
-	public async Task<IActionResult> GetTarefa(int id)
-	{
-		if (id <= 0)
-			return BadRequest("ID inválido.");
+    [HttpGet]
+    public async Task<IActionResult> ListarTarefas()
+    {
+        var tarefas = await _service.ListarTarefasAsync();
+        return Ok(tarefas);
+    }
 
-		var tarefa = await _service.GetTarefaAsync(id);
-		if (tarefa == null)
-			return NotFound("Tarefa não encontrada");
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetTarefa(int id)
+    {
+        if (id <= 0)
+            return BadRequest(new
+            {
+                mensagem = "O ID informado é inválido."
+            });
 
-		return Ok(tarefa);
-	}
+        var tarefa = await _service.GetTarefaAsync(id);
 
-	[HttpPost]
-	public async Task<IActionResult> CriarTarefa([FromBody] Tarefa tarefa)
-	{
-		if (!ModelState.IsValid)
-			return BadRequest(ModelState);
+        if (tarefa == null)
+            return NotFound(new
+            {
+                mensagem = "Tarefa não encontrada."
+            });
 
-		var novaTarefa = await _service.CriarTarefaAsync(tarefa);
+        return Ok(tarefa);
+    }
 
-		return CreatedAtAction(nameof(GetTarefa), new { id = novaTarefa.Id }, novaTarefa);
-	}
+    [HttpPost]
+    public async Task<IActionResult> CriarTarefa([FromBody] Tarefa tarefa)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
-	[HttpPut("{id}")]
-	public async Task<IActionResult> AtualizarTarefa(int id, [FromBody] Tarefa tarefaAtualizada)
-	{
-		if (id <= 0)
-			return BadRequest("ID inválido.");
+        var novaTarefa = await _service.CriarTarefaAsync(tarefa);
 
-		if (!ModelState.IsValid)
-			return BadRequest(ModelState);
+        return CreatedAtAction(
+            nameof(GetTarefa),
+            new { id = novaTarefa.Id },
+            novaTarefa
+        );
+    }
 
-		var tarefa = await _service.AtualizarTarefaAsync(id, tarefaAtualizada);
-		if (tarefa == null)
-			return NotFound("Tarefa não encontrada.");
+    [HttpPut("{id}")]
+    public async Task<IActionResult> AtualizarTarefa(
+        int id,
+        [FromBody] Tarefa tarefaAtualizada)
+    {
+        if (id <= 0)
+            return BadRequest(new
+            {
+                mensagem = "O ID informado é inválido."
+            });
 
-		return Ok($"Tarefa ID: {id} | {tarefaAtualizada.Titulo}, atualizada com sucesso!");
-	}
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
-	[HttpDelete("{id}")]
-	public async Task<IActionResult> DeletarTarefa(int id)
-	{
-		if (id <= 0)
-			return BadRequest("ID inválido.");
+        var tarefa = await _service.AtualizarTarefaAsync(id, tarefaAtualizada);
 
-		var tarefaDeletada = await _service.DeletarTarefaAsync(id);
-		if (!tarefaDeletada)
-			return NotFound("Tarefa não encontrada.");
+        if (tarefa == null)
+            return NotFound(new
+            {
+                mensagem = "Tarefa não encontrada."
+            });
 
-		return Ok("Tarefa deletada.");
-	}
+        return Ok(tarefa);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeletarTarefa(int id)
+    {
+        if (id <= 0)
+            return BadRequest(new
+            {
+                mensagem = "O ID informado é inválido."
+            });
+
+        var tarefaDeletada = await _service.DeletarTarefaAsync(id);
+
+        if (!tarefaDeletada)
+            return NotFound(new
+            {
+                mensagem = "Tarefa não encontrada."
+            });
+
+        return NoContent();
+    }
 }
