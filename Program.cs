@@ -2,17 +2,37 @@ using dvteam_api.Data;
 using dvteam_api.Repositories;
 using dvteam_api.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
+// OpenAPI
 builder.Services.AddOpenApi();
-builder.Services.AddSwaggerGen();
+
+// Swagger
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "DVTeam API",
+        Description = "API para gerenciamento de usuários e tarefas."
+    });
+
+    var xmlFilename =
+        $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+
+    options.IncludeXmlComments(
+        Path.Combine(AppContext.BaseDirectory, xmlFilename)
+    );
+});
+
+// Banco de dados
 builder.Services.AddDbContext<AppDbContext>(options =>
-	options.UseSqlite("Data Source=dvteam.db"));
+    options.UseSqlite("Data Source=dvteam.db"));
 
 // REPOSITORIES e SERVICES
 builder.Services.AddScoped<ITarefaRepository, TarefaRepository>();
@@ -24,12 +44,12 @@ builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 // CONFIGURANDO O CORS
 builder.Services.AddCors(options =>
 {
-   options.AddPolicy("PermitirAngular", policy =>
-   {
-      policy.WithOrigins("http://localhost:4200")
-      .AllowAnyHeader()
-      .AllowAnyMethod(); 
-   }); 
+    options.AddPolicy("PermitirAngular", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
 });
 
 var app = builder.Build();
@@ -38,8 +58,16 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+
     app.UseSwagger();
-    app.UseSwaggerUI();
+
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint(
+            "/swagger/v1/swagger.json",
+            "DVTeam API v1"
+        );
+    });
 }
 
 app.UseHttpsRedirection();
