@@ -62,8 +62,9 @@ namespace dvteam_api.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Senha")
+                    b.Property<string>("SenhaHash")
                         .IsRequired()
+                        .HasColumnName("Senha")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

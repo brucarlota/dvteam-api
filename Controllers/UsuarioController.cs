@@ -53,14 +53,14 @@ public class UsuarioController : ControllerBase
     /// <summary>
     /// Cria um novo usuário.
     /// </summary>
-    /// <param name="usuario">Dados do usuário que será cadastrado.</param>
+    /// <param name="request">Dados do usuário que será cadastrado.</param>
     /// <returns>Dados do usuário criado.</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(RespostaErro), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CriarUsuario([FromBody] Usuario usuario)
+    public async Task<IActionResult> CriarUsuario([FromBody] CriarUsuarioRequest request)
     {
-        var novoUsuario = await _service.CriarUsuarioAsync(usuario);
+        var novoUsuario = await _service.CriarUsuarioAsync(request);
 
         return CreatedAtAction(
             nameof(GetUsuario),
