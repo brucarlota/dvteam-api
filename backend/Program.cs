@@ -2,6 +2,7 @@ using dvteam_api.Data;
 using dvteam_api.Repositories;
 using dvteam_api.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +41,12 @@ builder.Services.AddScoped<ITarefaService, TarefaService>();
 
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+
+// HASH DE SENHA
+builder.Services.AddScoped<
+    IPasswordHasher<dvteam_api.Models.Usuario>,
+    PasswordHasher<dvteam_api.Models.Usuario>
+>();
 
 // CONFIGURANDO O CORS
 builder.Services.AddCors(options =>
