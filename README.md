@@ -1,14 +1,28 @@
 # Sistema de Gerenciamento de Tarefas (Back & Front)
 
+<div align="center">
+
+<img src="https://capsule-render.vercel.app/api?type=rect&amp;color=C587A7&amp;height=2&amp;width=100%" />
+
+![.NET](https://img.shields.io/badge/.NET-6%2B-0f172a?style=flat-square&logo=dotnet&logoColor=FFB3DE)
+![C#](https://img.shields.io/badge/C%23-0f172a?style=flat-square&logo=csharp&logoColor=C587A7)
+![Angular](https://img.shields.io/badge/Angular-15%2B-0f172a?style=flat-square&logo=angular&logoColor=FFB3DE)
+![TypeScript](https://img.shields.io/badge/TypeScript-0f172a?style=flat-square&logo=typescript&logoColor=C587A7)
+![EF Core](https://img.shields.io/badge/EF_Core-0f172a?style=flat-square&logo=dotnet&logoColor=FFB3DE)
+![SQLite](https://img.shields.io/badge/SQLite-0f172a?style=flat-square&logo=sqlite&logoColor=C587A7)
+![Swagger](https://img.shields.io/badge/Swagger-0f172a?style=flat-square&logo=swagger&logoColor=FFB3DE)
+
+</div>
+
 Projeto desenvolvido em squad como desafio prático final do módulo de **Desenvolvimento de APIs com .NET**.
 
 > Projeto desenvolvido durante o bootcamp da **WoMakersCode** 💜.
 
 ## Apresentação
 
-Este projeto prático tem como objetivo reunir tudo o que foi estudado ao longo do módulo em uma única aplicação funcional, desenvolvida de forma independente. Pense neste projeto como a sua primeira API real, pronta para compor seu portfólio, ser compartilhada no GitHub e apresentada em entrevistas de emprego.
+Este projeto prático tem como objetivo reunir tudo o que foi estudado ao longo do módulo em uma única aplicação funcional, desenvolvida de forma independente.
 
-A aplicação consiste em um **Sistema de Gerenciamento de Tarefas com Cadastro de Usuária**, permitindo que uma usuária se cadastre, acesse o sistema e gerencie suas próprias tarefas (criando, visualizando, editando e excluindo itens de sua lista).
+A aplicação consiste em um **Sistema de Gerenciamento de Tarefas com Cadastro de Usuária**, permitindo que uma usuária se cadastre, acesse o sistema e gerencie suas próprias tarefas.
 
 ## Tecnologias Utilizadas
 
