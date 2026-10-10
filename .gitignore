@@ -1,10 +1,12 @@
-bin/
-obj/
+# Angular
+/frontend/node_modules/
+/frontend/dist/
+.angular/
+
+# C# / .NET
+**/bin/
+**/obj/
 .vs/
-[Dd]ebug/
-[Rr]elease/
-[Aa]rtifacts/
-TestResults/
 *.user
 *.suo
 *.userosscache
