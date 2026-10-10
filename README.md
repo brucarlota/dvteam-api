@@ -1,6 +1,6 @@
 <div align="center">
 
-# Sistema de Gerenciamento de Tarefas (Back & Front)
+### Sistema de Gerenciamento de Tarefas (Back & Front)
 
 <img src="https://capsule-render.vercel.app/api?type=rect&amp;color=C587A7&amp;height=2&amp;width=100%" />
 
@@ -15,6 +15,18 @@
 </div>
 
 Projeto desenvolvido em squad como desafio prático final do módulo de **Desenvolvimento de APIs com .NET** durante o bootcamp da **WoMakersCode** 💜.
+
+---
+
+## 👩‍💻 Squad Dorothy Vaughan
+
+Desenvolvido com dedicação por:
+- **Bruna Cruz**
+- **Josiane Fatima**
+- **Maria Luiza**
+- **Nayara Francelino**
+
+---
 
 ## Apresentação
 
@@ -58,6 +70,25 @@ A aplicação consiste em um **Sistema de Gerenciamento de Tarefas com Cadastro 
 - Botões de ação rápida para marcar como concluída ou excluir.
 - Tratamento de erros de requisição e confirmações visuais.
 
+## 📂 Estrutura do Projeto
+
+```text
+.
+├── backend/
+│   ├── Controllers/       # Endpoints HTTP da API
+│   ├── Data/              # Configuração do DbContext
+│   ├── DTOs/              # Objetos de Transferência de Dados
+│   ├── Migrations/        # Migrações do Entity Framework Core
+│   ├── Models/            # Entidades do Domínio
+│   ├── Repositories/      # Camada de Acesso a Dados
+│   ├── Services/          # Regras de Negócio
+│   ├── Program.cs         # Configuração e inicialização da API
+│   └── appsettings.json   # Configurações e conexões
+└── frontend/
+    └── src/
+        └── app/           # Componentes, serviços e rotas do Angular
+```
+
 ## Como Executar o Projeto
 
 1. Clone o repositório em sua máquina local:
@@ -89,10 +120,3 @@ A aplicação consiste em um **Sistema de Gerenciamento de Tarefas com Cadastro 
      ng serve
      ```
    - Acesse a aplicação no navegador em `http://localhost:4200`.
-
-## Squad Dorothy Vaughan
-
-- Bruna Cruz
-- Josiane Fatima
-- Maria Luiza
-- Nayara Francelino
