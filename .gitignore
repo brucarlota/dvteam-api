@@ -10,3 +10,4 @@ TestResults/
 *.userosscache
 *.sln.docstates
 *.db
+*.db-*
