@@ -34,16 +34,24 @@ export class App implements OnInit {
 
   get tarefasFiltradas(): Tarefa[] {
     if (this.filtro === 'abertas') {
-      return this.tarefas.filter((tarefa) => this.statusDa(tarefa) !== TarefaStatus.Concluida);
+      return this.tarefas.filter(
+        (tarefa) => this.statusDa(tarefa) !== TarefaStatus.Concluida,
+      );
     }
+
     if (this.filtro === 'concluidas') {
-      return this.tarefas.filter((tarefa) => this.statusDa(tarefa) === TarefaStatus.Concluida);
+      return this.tarefas.filter(
+        (tarefa) => this.statusDa(tarefa) === TarefaStatus.Concluida,
+      );
     }
+
     return this.tarefas;
   }
 
   get totalConcluidas(): number {
-    return this.tarefas.filter((tarefa) => this.statusDa(tarefa) === TarefaStatus.Concluida).length;
+    return this.tarefas.filter(
+      (tarefa) => this.statusDa(tarefa) === TarefaStatus.Concluida,
+    ).length;
   }
 
   get totalAbertas(): number {
@@ -59,6 +67,7 @@ export class App implements OnInit {
   carregarTarefas(): void {
     this.carregando = true;
     this.mensagemErro = '';
+
     this.api.listarTarefas().subscribe({
       next: (tarefas) => {
         this.tarefas = tarefas;
@@ -81,11 +90,16 @@ export class App implements OnInit {
   editarTarefa(tarefa: Tarefa): void {
     this.limparMensagens();
     this.tarefaEditandoId = tarefa.id;
+
     this.tarefaForm = {
       titulo: tarefa.titulo,
       descricao: tarefa.descricao,
+      dataVencimento: tarefa.dataVencimento
+        ? tarefa.dataVencimento.substring(0, 10)
+        : '',
       status: this.statusDa(tarefa),
     };
+
     this.formularioAberto = true;
   }
 
@@ -97,30 +111,46 @@ export class App implements OnInit {
   salvarTarefa(): void {
     this.limparMensagens();
     this.salvando = true;
+
     const agora = new Date().toISOString();
-    const existente = this.tarefas.find((tarefa) => tarefa.id === this.tarefaEditandoId);
+
+    const existente = this.tarefas.find(
+      (tarefa) => tarefa.id === this.tarefaEditandoId,
+    );
+
     const dados: NovaTarefa = {
       titulo: this.tarefaForm.titulo.trim(),
       descricao: this.tarefaForm.descricao.trim(),
+
       dataCriacao: existente?.dataCriacao ?? agora,
-      dataConclusao: this.tarefaForm.status === TarefaStatus.Concluida &&
-          (!existente || this.statusDa(existente) !== TarefaStatus.Concluida)
-        ? agora
-        : existente?.dataConclusao ?? agora,
+
+      dataVencimento:
+        `${this.tarefaForm.dataVencimento}T23:59:59`,
+
+      dataConclusao:
+        this.tarefaForm.status === TarefaStatus.Concluida &&
+        (!existente || this.statusDa(existente) !== TarefaStatus.Concluida)
+          ? agora
+          : existente?.dataConclusao ?? agora,
+
       status: this.tarefaForm.status,
     };
 
-    const requisicao = this.tarefaEditandoId === null
-      ? this.api.criarTarefa(dados)
-      : this.api.atualizarTarefa(this.tarefaEditandoId, dados);
+    const requisicao =
+      this.tarefaEditandoId === null
+        ? this.api.criarTarefa(dados)
+        : this.api.atualizarTarefa(this.tarefaEditandoId, dados);
 
     requisicao.subscribe({
       next: () => {
         this.salvando = false;
         this.formularioAberto = false;
-        this.mensagemSucesso = this.tarefaEditandoId === null
-          ? 'Tarefa criada com sucesso.'
-          : 'Tarefa atualizada com sucesso.';
+
+        this.mensagemSucesso =
+          this.tarefaEditandoId === null
+            ? 'Tarefa criada com sucesso.'
+            : 'Tarefa atualizada com sucesso.';
+
         this.tarefaEditandoId = null;
         this.carregarTarefas();
       },
@@ -133,13 +163,16 @@ export class App implements OnInit {
 
   concluirTarefa(tarefa: Tarefa): void {
     this.limparMensagens();
+
     const dados: NovaTarefa = {
       titulo: tarefa.titulo,
       descricao: tarefa.descricao,
       dataCriacao: tarefa.dataCriacao,
+      dataVencimento: tarefa.dataVencimento,
       dataConclusao: new Date().toISOString(),
       status: TarefaStatus.Concluida,
     };
+
     this.api.atualizarTarefa(tarefa.id, dados).subscribe({
       next: () => {
         this.mensagemSucesso = 'Tarefa marcada como concluída.';
@@ -157,6 +190,7 @@ export class App implements OnInit {
     }
 
     this.limparMensagens();
+
     this.api.excluirTarefa(tarefa.id).subscribe({
       next: () => {
         this.mensagemSucesso = 'Tarefa excluída com sucesso.';
@@ -171,35 +205,50 @@ export class App implements OnInit {
   cadastrarUsuario(): void {
     this.limparMensagens();
     this.salvando = true;
-    this.api.cadastrarUsuario({
-      nome: this.usuarioForm.nome.trim(),
-      email: this.usuarioForm.email.trim(),
-      senha: this.usuarioForm.senha,
-    }).subscribe({
-      next: () => {
-        this.salvando = false;
-        this.usuarioForm = { nome: '', email: '', senha: '' };
-        this.tela = 'tarefas';
-        this.mensagemSucesso = 'Cadastro realizado com sucesso.';
-      },
-      error: (erro: HttpErrorResponse) => {
-        this.mensagemErro = this.mensagemDaFalha(erro);
-        this.salvando = false;
-      },
-    });
+
+    this.api
+      .cadastrarUsuario({
+        nome: this.usuarioForm.nome.trim(),
+        email: this.usuarioForm.email.trim(),
+        senha: this.usuarioForm.senha,
+      })
+      .subscribe({
+        next: () => {
+          this.salvando = false;
+          this.usuarioForm = { nome: '', email: '', senha: '' };
+          this.tela = 'tarefas';
+          this.mensagemSucesso = 'Cadastro realizado com sucesso.';
+        },
+        error: (erro: HttpErrorResponse) => {
+          this.mensagemErro = this.mensagemDaFalha(erro);
+          this.salvando = false;
+        },
+      });
   }
 
   statusDa(tarefa: Tarefa): TarefaStatus {
     if (typeof tarefa.status === 'number') {
       return tarefa.status;
     }
+
     const status = tarefa.status.toLowerCase();
-    if (status === 'concluida' || status === 'concluída' || status === '2') {
+
+    if (
+      status === 'concluida' ||
+      status === 'concluída' ||
+      status === '2'
+    ) {
       return TarefaStatus.Concluida;
     }
-    if (status === 'emandamento' || status === 'em andamento' || status === '1') {
+
+    if (
+      status === 'emandamento' ||
+      status === 'em andamento' ||
+      status === '1'
+    ) {
       return TarefaStatus.EmAndamento;
     }
+
     return TarefaStatus.Pendente;
   }
 
@@ -207,8 +256,10 @@ export class App implements OnInit {
     switch (status) {
       case TarefaStatus.Concluida:
         return 'Concluída';
+
       case TarefaStatus.EmAndamento:
         return 'Em andamento';
+
       default:
         return 'Pendente';
     }
@@ -218,8 +269,18 @@ export class App implements OnInit {
     return TarefaStatus[this.statusDa(tarefa)].toLowerCase();
   }
 
-  private novaTarefaForm(): { titulo: string; descricao: string; status: TarefaStatus } {
-    return { titulo: '', descricao: '', status: TarefaStatus.Pendente };
+  private novaTarefaForm(): {
+    titulo: string;
+    descricao: string;
+    dataVencimento: string;
+    status: TarefaStatus;
+  } {
+    return {
+      titulo: '',
+      descricao: '',
+      dataVencimento: '',
+      status: TarefaStatus.Pendente,
+    };
   }
 
   private limparMensagens(): void {
@@ -228,13 +289,25 @@ export class App implements OnInit {
   }
 
   private mensagemDaFalha(erro: HttpErrorResponse): string {
-    const corpo = erro.error as { mensagem?: string; message?: string; title?: string } | null;
+    const corpo = erro.error as {
+      mensagem?: string;
+      message?: string;
+      title?: string;
+    } | null;
+
     if (corpo?.mensagem || corpo?.message || corpo?.title) {
-      return corpo.mensagem ?? corpo.message ?? corpo.title ?? 'Não foi possível concluir a solicitação.';
+      return (
+        corpo.mensagem ??
+        corpo.message ??
+        corpo.title ??
+        'Não foi possível concluir a solicitação.'
+      );
     }
+
     if (erro.status === 0) {
       return 'Não foi possível conectar à API. Verifique se ela está em execução e tente novamente.';
     }
+
     return `A solicitação falhou (HTTP ${erro.status}). Tente novamente.`;
   }
 }

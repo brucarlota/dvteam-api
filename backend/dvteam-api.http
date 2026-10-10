@@ -1,6 +1,64 @@
 @dvteam_api_HostAddress = http://localhost:5274
 
-GET {{dvteam_api_HostAddress}}/weatherforecast/
+### Listar todas as tarefas
+GET {{dvteam_api_HostAddress}}/api/Tarefa
 Accept: application/json
 
 ###
+
+### Buscar tarefa por ID
+GET {{dvteam_api_HostAddress}}/api/Tarefa/1
+Accept: application/json
+
+###
+
+### Criar tarefa
+POST {{dvteam_api_HostAddress}}/api/Tarefa
+Content-Type: application/json
+
+{
+  "titulo": "Teste API",
+  "descricao": "Validando endpoint pelo arquivo .http",
+  "dataCriacao": "2026-10-10T20:00:00",
+  "dataConclusao": "2026-10-11T20:00:00",
+  "status": 0
+}
+
+###
+
+### Atualizar tarefa
+PUT {{dvteam_api_HostAddress}}/api/Tarefa/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "titulo": "Teste API atualizado",
+  "descricao": "Tarefa atualizada pelo arquivo .http",
+  "dataCriacao": "2026-10-10T20:00:00",
+  "dataConclusao": "2026-10-11T20:00:00",
+  "status": 1
+}
+
+###
+
+### Excluir tarefa
+DELETE {{dvteam_api_HostAddress}}/api/Tarefa/1
+Accept: application/json
+
+###
+
+### Buscar usuário por ID
+GET {{dvteam_api_HostAddress}}/api/Usuario/1
+Accept: application/json
+
+###
+
+### Criar usuário
+POST {{dvteam_api_HostAddress}}/api/Usuario
+Content-Type: application/json
+
+{
+  "nome": "Teste Usuario",
+  "email": "teste.usuario@email.com",
+  "senha": "123456"
+}

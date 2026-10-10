@@ -13,6 +13,7 @@ export interface Tarefa {
   titulo: string;
   descricao: string;
   dataCriacao: string;
+  dataVencimento: string;
   dataConclusao: string;
   status: TarefaStatus | string;
 }
@@ -21,6 +22,7 @@ export interface NovaTarefa {
   titulo: string;
   descricao: string;
   dataCriacao: string;
+  dataVencimento: string;
   dataConclusao: string;
   status: TarefaStatus;
 }
@@ -52,10 +54,11 @@ export class ApiService {
     return this.http.delete<void>(`${this.apiUrl}/Tarefa/${id}`);
   }
 
-  cadastrarUsuario(usuario: NovoUsuario): Observable<Pick<NovoUsuario, 'nome' | 'email'> & { id: number }> {
-    return this.http.post<Pick<NovoUsuario, 'nome' | 'email'> & { id: number }>(
-      `${this.apiUrl}/Usuario`,
-      usuario,
-    );
+  cadastrarUsuario(
+    usuario: NovoUsuario,
+  ): Observable<Pick<NovoUsuario, 'nome' | 'email'> & { id: number }> {
+    return this.http.post<
+      Pick<NovoUsuario, 'nome' | 'email'> & { id: number }
+    >(`${this.apiUrl}/Usuario`, usuario);
   }
 }
