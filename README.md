@@ -1,6 +1,6 @@
-# Sistema de Gerenciamento de Tarefas (Back & Front)
-
 <div align="center">
+
+# Sistema de Gerenciamento de Tarefas (Back & Front)
 
 <img src="https://capsule-render.vercel.app/api?type=rect&amp;color=C587A7&amp;height=2&amp;width=100%" />
 
@@ -14,13 +14,11 @@
 
 </div>
 
-Projeto desenvolvido em squad como desafio prático final do módulo de **Desenvolvimento de APIs com .NET**.
-
-> Projeto desenvolvido durante o bootcamp da **WoMakersCode** 💜.
+Projeto desenvolvido em squad como desafio prático final do módulo de **Desenvolvimento de APIs com .NET** durante o bootcamp da **WoMakersCode** 💜.
 
 ## Apresentação
 
-Este projeto prático tem como objetivo reunir tudo o que foi estudado ao longo do módulo em uma única aplicação funcional, desenvolvida de forma independente.
+Este projeto prático tem como objetivo reunir tudo o que foi estudado ao longo do módulo em uma única aplicação funcional.
 
 A aplicação consiste em um **Sistema de Gerenciamento de Tarefas com Cadastro de Usuária**, permitindo que uma usuária se cadastre, acesse o sistema e gerencie suas próprias tarefas.
 
