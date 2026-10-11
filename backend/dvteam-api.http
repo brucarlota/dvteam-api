@@ -20,6 +20,7 @@ Content-Type: application/json
   "titulo": "Teste API",
   "descricao": "Validando endpoint pelo arquivo .http",
   "dataCriacao": "2026-10-10T20:00:00",
+  "dataVencimento": "2026-10-15T23:59:59",
   "dataConclusao": "2026-10-11T20:00:00",
   "status": 0
 }
@@ -35,6 +36,7 @@ Content-Type: application/json
   "titulo": "Teste API atualizado",
   "descricao": "Tarefa atualizada pelo arquivo .http",
   "dataCriacao": "2026-10-10T20:00:00",
+  "dataVencimento": "2026-10-20T23:59:59",
   "dataConclusao": "2026-10-11T20:00:00",
   "status": 1
 }
